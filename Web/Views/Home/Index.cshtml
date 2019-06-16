@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+    <div class="jumbotron">
+
+        <form onsubmit="preguntar(event)">
+            <i class="glyphicon glyphicon-user" > </i> 
+            <label>Nombre</label>
+            <div class="form-group form-inline">
+                <input type="text" class="form-control" id="nombre" />
+                <button type="submit" class="btn btn-primary">Enviar</button>
+            </div>
+        </form>
+
+    </div>
+
+<script>
+    function preguntar(e) {
+        let nombre = document.querySelector("#nombre").value 
+
+        console.log(`nombre : ${nombre}` )
+        consultar(nombre)
+
+
+        e.preventDefault()
+    }
+
+
+    function consultar(nombre) {
+        let url = `/api/prueba1?Nombre=${nombre}`;
+
+        fetch(url, {
+            method: 'get',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).catch(err => {
+            console.error("Error=>", err);
+            alert("fallo En La Consulta!!!");
+        }).then(res =>
+            res.json().then(respuesta => {
+                console.log("Consulta Finalizada...\n", respuesta);
+                alert(respuesta)
+                 document.querySelector("#nombre").value  =""
+            })
+           )
+    }
+</script>
